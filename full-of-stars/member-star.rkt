@@ -1,0 +1,28 @@
+#lang scheme
+
+(require rackunit "../atom.rkt")
+
+; Atom List (of S-expr) -> Boolean
+
+(define (member* a l)
+  (cond
+    ((null? l) #f)
+    ((atom? (car l))
+     (or 
+       (eq? (car l) a)
+       (member* a (cdr l))))
+    (else
+      (or
+        (member* a (car l))
+        (member* a (cdr l))))))
+
+(check-true 
+  (member* 
+    'chips 
+    '((potato) (chips ((with) fish) (chips)))))
+
+(check-false
+  (member* 
+    'poncherello 
+    '((potato) (chips ((with) fish) (chips)))))
+
